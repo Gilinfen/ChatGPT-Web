@@ -41,19 +41,19 @@ COPY --from=builder /app/.next/server ./.next/server
 EXPOSE 3000
 
 CMD if [ -n "$PROXY_URL" ]; then \
-        protocol=$(echo $PROXY_URL | cut -d: -f1); \
-        host=$(echo $PROXY_URL | cut -d/ -f3 | cut -d: -f1); \
-        port=$(echo $PROXY_URL | cut -d: -f3); \
-        conf=/etc/proxychains.conf; \
-        echo "strict_chain" > $conf; \
-        echo "proxy_dns" >> $conf; \
-        echo "remote_dns_subnet 224" >> $conf; \
-        echo "tcp_read_time_out 15000" >> $conf; \
-        echo "tcp_connect_time_out 8000" >> $conf; \
-        echo "[ProxyList]" >> $conf; \
-        echo "$protocol $host $port" >> $conf; \
-        cat /etc/proxychains.conf; \
-        proxychains -f $conf node server.js; \
-    else \
-        node server.js; \
-    fi
+  protocol=$(echo $PROXY_URL | cut -d: -f1); \
+  host=$(echo $PROXY_URL | cut -d/ -f3 | cut -d: -f1); \
+  port=$(echo $PROXY_URL | cut -d: -f3); \
+  conf=/etc/proxychains.conf; \
+  echo "strict_chain" > $conf; \
+  echo "proxy_dns" >> $conf; \
+  echo "remote_dns_subnet 224" >> $conf; \
+  echo "tcp_read_time_out 15000" >> $conf; \
+  echo "tcp_connect_time_out 8000" >> $conf; \
+  echo "[ProxyList]" >> $conf; \
+  echo "$protocol $host $port" >> $conf; \
+  cat /etc/proxychains.conf; \
+  proxychains -f $conf node server.js; \
+  else \
+  node server.js; \
+  fi
