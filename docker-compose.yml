@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  g-chatgpt:
+    container_name: g-chatgpt
+    image: registry.cn-shanghai.aliyuncs.com/glinfen/g-chatgpt
+    build:
+      context: .
+      dockerfile: Dockerfile
+      platforms:
+        - "linux/amd64"
+    env_file:
+      - .env
+    environment:
+      - PROXY_URL=http://proxy:7890
+    ports:
+      - 3002:3000
+    networks:
+      - glinfen_network
+
+# 定义一个允许容器通信的网络
+networks:
+  glinfen_network:
+    external: true
